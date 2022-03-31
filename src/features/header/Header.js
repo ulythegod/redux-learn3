@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import {saveNewTodo} from '../todos/todosSlice'
 
 const Header = () => {
   const [text, setText] = useState('')
@@ -11,8 +12,10 @@ const Header = () => {
     const trimmedText = e.target.value.trim();
     //если пользователь нажимает кнопку энтер
     if (e.key === 'Enter' && trimmedText) {
+      //создается функция thunk, в нее параметром передается текст, написанный пользователем
+      const saveNewTodoThunk = saveNewTodo(trimmedText);
       //отправка действия "todo added" с текстом
-      dispatch({ type: 'todos/todoAdded', payload: trimmedText});
+      dispatch(saveNewTodoThunk);
       //очистка всего инпута
       setText('');
     }
